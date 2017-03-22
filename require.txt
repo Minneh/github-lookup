@@ -1,0 +1,12 @@
+gulp
+browserify
+vinyl-source-stream
+gulp-concat
+gulp-uglify
+gulp-util
+del
+gulp-jshint
+bower-files
+browser-sync
+gulp-sass
+gulp-sourcemaps

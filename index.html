@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/github-interface.js"></script>
+    <script type="text/javascript" src="js/github.js"></script>
+    <title>GitHub User Lookup</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Github User Lookup</h1>
+      <label for="username">Enter Username: </label>
+      <input id="username" type="text">
+      <button class="btn-success" id="login">Search</button>
+
+      <input type="button" value="Remove All" onclick="removeAll()">
+      <div class="showUser"></div>
+      <h2>Repositories</h2>
+        <ol id="list">
+        </ol>
+    </div>
+  </body>
+</html>
