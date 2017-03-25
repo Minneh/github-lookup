@@ -6,10 +6,8 @@ var uglify = require('gulp-uglify');
 var utilities = require('gulp-util');
 var del = require('del');
 var jshint = require('gulp-jshint');
-var lib = require('bower-files')(); //require Bower files and tell function to run immediately by using ()
-var browserSync = require('browser-sync').create();
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
+
+var buildProduction = utilities.env.production;//
 
 //telling the bower-files package where to find the Bootstrap files we're interested in ...
 var lib = require('bower-files')({
@@ -25,8 +23,23 @@ var lib = require('bower-files')({
   }
 });
 
+var browserSync = require('browser-sync').create();
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 
-var buildProduction = utilities.env.production;//
+//linter to check for js errors
+gulp.task('jshint', function(){
+  return gulp.src(['js/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+//combine all js files in js folder in temporary file allConcat
+gulp.task('concatInterface', function() {
+  return gulp.src(['./js/*.js'])
+    .pipe(concat('allConcat.js'))
+    .pipe(gulp.dest('./tmp'));
+});
 
 // run concatInterface before jsBrowserify
 gulp.task('jsBrowserify', ['concatInterface'], function() {
@@ -41,44 +54,6 @@ gulp.task("minifyScripts", ["jsBrowserify"], function(){
   return gulp.src("./build/js/app.js")
   .pipe(uglify())
   .pipe(gulp.dest("./build/js"));
-});
-
-//combine pingpong-interface and signup-interface in temporary file allConcat
-gulp.task('concatInterface', function() {
-  return gulp.src(['./js/*.js'])
-    .pipe(concat('allConcat.js'))
-    .pipe(gulp.dest('./tmp'));
-});
-
-//Clean up directory
-gulp.task("clean", function(){
-  return del(['build', 'tmp']);
-});
-
-//makes development build
-// gulp.task("build", function(){
-//   if (buildProduction){
-//     gulp.start('minifyScripts');
-//   } else{
-//     gulp.start('jsBrowserify');
-//   }
-// });
-
-//combines clean and build, running clean first because it is a dependency
-gulp.task("build", ['clean'], function(){
-  if (buildProduction) {
-    gulp.start('minifyScripts');//ensure minify runs each time we build
-  } else {
-    gulp.start('jsBrowserify');
-  }
-  gulp.start('bower'); //making sure that this bower task runs automatically when we build
-  gulp.start('cssBuild');
-});
-//linter to check for js errors
-gulp.task('jshint', function(){
-  return gulp.src(['js/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
 });
 
 /* use gulp.src to pull in all files with .js extension and output one concatenated minified file called vendor.min.js. Finally use gulp.dest to put the finished file into our build/js directory */
@@ -100,8 +75,24 @@ gulp.task('bowerCSS', function(){
 Now we can run a task with gulp bower - thus running both JS and CSS tasks concurrently - any time we add a bower dependency*/
 gulp.task('bower', ['bowerJS', 'bowerCSS']); //bowerJS and bowerCSS are two dependency tasks
 
+//Clean up directory
+gulp.task("clean", function(){
+  return del(['build', 'tmp']);
+});
+
+//combines clean and build, running clean first because it is a dependency
+gulp.task("build", ['clean'], function(){
+  if (buildProduction) {
+    gulp.start('minifyScripts');//ensure minify runs each time we build
+  } else {
+    gulp.start('jsBrowserify');
+  }
+  gulp.start('bower'); //making sure that this bower task runs automatically when we build
+  gulp.start('cssBuild');
+});
+
 // make a task to start server using browserSync pkg
-gulp.task('serve', function(){
+gulp.task('serve', ['build'], function(){
   browserSync.init({//initialise browserSync
     server: {
       baseDir:"./",//telling browserSync to launch the local server from the directory that we are currently in
@@ -116,11 +107,13 @@ gulp.watch() takes two arguments:
   gulp.watch(['bower.json'], ['bowerBuild']);//watcher for bower dependencies. ...watching the Bower manifest file for changes so that whenever we install or uninstall a frontend dependency our vendor files will be rebuilt and the browser reloaded with the bowerBuild task (below)
 
   gulp.watch(['*.html'], ['htmlBuild']);// because we have more than one .html file to keep track of, we add a watcher to our server for HTML files
-});
 
-// HTMl build task to reload the browser any time our HTML files change
-gulp.task('htmlBuild', function() {
-  browserSync.reload();
+  gulp.watch("scss/*.scss", ['cssBuild']);
+});// add a watcher for our SCSS files to our serve task, so that they are built automatically whenever they are changed.
+
+/*This task lists an array of dependency tasks that need to be run whenever any of the js files change, i.e. the linter (jshint) and jsBrowserify along with its dependencies*/
+gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){ //the linter can be run at the same time as we concatenate and browserify our files since they are independent from each other.
+  browserSync.reload(); //Then once those are complete, we use the task functon to call browserSync.reload() and reload the browser
 });
 
 // bowerBuild task referenced above
@@ -128,13 +121,11 @@ gulp.task('bowerBuild', ['bower'], function(){
   browserSync.reload();
 });
 
-/*This task lists an array of dependency tasks that need to be run whenever any of the js files change, i.e. the linter (jshint) and jsBrowserify along with its dependencies*/
-gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){ //the linter can be run at the same time as we concatenate and browserify our files since they are independent from each other.
-  browserSync.reload(); //Then once those are complete, we use the task functon to call browserSync.reload() and reload the browser
+// HTMl build task to reload the browser any time our HTML files change
+gulp.task('htmlBuild', function() {
+  browserSync.reload();
 });
 
-// add a watcher for our SCSS files to our serve task, so that they are built automatically whenever they are changed.
-gulp.watch(["scss/*.scss"], ['cssBuild']);
 
 gulp.task('cssBuild', function(){
   return gulp.src(['scss/*.scss']) //load all files in scss folder that have ext .scss
