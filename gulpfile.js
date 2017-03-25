@@ -108,7 +108,7 @@ gulp.watch() takes two arguments:
 
   gulp.watch(['*.html'], ['htmlBuild']);// because we have more than one .html file to keep track of, we add a watcher to our server for HTML files
 
-  gulp.watch("scss/*.scss", ['cssBuild'])
+  gulp.watch("scss/*.scss", ['cssBuild']);
 });// add a watcher for our SCSS files to our serve task, so that they are built automatically whenever they are changed.
 
 /*This task lists an array of dependency tasks that need to be run whenever any of the js files change, i.e. the linter (jshint) and jsBrowserify along with its dependencies*/
