@@ -1,7 +1,7 @@
 {
-  "name": "github",
+  "name": "github_user_lookup",
   "version": "1.0.0",
-  "description": "",
+  "description": "##Project Site: <https://minneh.github.io/github-lookup/>",
   "main": "github.js",
   "dependencies": {
     "browserify": "^14.1.0",
@@ -32,5 +32,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Minneh/github-lookup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Minneh/github-lookup/issues"
+  },
+  "homepage": "https://github.com/Minneh/github-lookup#readme"
 }

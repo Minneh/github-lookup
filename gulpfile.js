@@ -45,7 +45,7 @@ gulp.task("minifyScripts", ["jsBrowserify"], function(){
 
 //combine pingpong-interface and signup-interface in temporary file allConcat
 gulp.task('concatInterface', function() {
-  return gulp.src(['./js/*-interface.js'])
+  return gulp.src(['./js/*.js'])
     .pipe(concat('allConcat.js'))
     .pipe(gulp.dest('./tmp'));
 });
@@ -56,13 +56,13 @@ gulp.task("clean", function(){
 });
 
 //makes development build
-gulp.task("build", function(){
-  if (buildProduction){
-    gulp.start('minifyScripts');
-  } else{
-    gulp.start('jsBrowserify');
-  }
-});
+// gulp.task("build", function(){
+//   if (buildProduction){
+//     gulp.start('minifyScripts');
+//   } else{
+//     gulp.start('jsBrowserify');
+//   }
+// });
 
 //combines clean and build, running clean first because it is a dependency
 gulp.task("build", ['clean'], function(){
