@@ -1,6 +1,6 @@
 # Project Name: Github User Lookup
 
-##Project Site: <https://minneh.github.io/github-lookup/>
+## Project Site: <https://minneh.github.io/github-lookup/>
 
 ## Created by: Minneh Mugo
 
@@ -13,16 +13,16 @@ The program requests alphanumeric input from the user.
 The user enters this input which is then stored as the search variable.
 The program then searches for the given username and, if valid, loops through the user's repositories, giving each title as output.
 
-#Technologies Used:
+# Technologies Used:
 - HTML
 - CSS
 - JavaScript
 
-#Setup:
+# Setup:
 - Open your preferred browser
 - Head to the url https://minneh.github.io/github-lookup/
 
-#Contributing
+# Contributing
 
 I welcome pull requests
 
