@@ -1,12 +1,14 @@
-var apiKey = "8a08e7209e775ff2fbf490ec8424be5f0676298b";
+var apiKey = require('./../.env').apiKey; //obtain API key from .env file
 $(document).ready(function(){
-  $("#login").click(function(){
-    var user = $("#username").val();
-    $("#username").val("");
-    $("ol#list").innerHTML = "";
-     $(".showUser").text(user);
-     removeAll();
+  $("#submit").click(function(){
+    var user = $("#username").val();//asign user-input name to var user
+    $("#username").val("");//clear input textbox
+     $("#showUser").text(user);//display input username
+     removeAll();//clear repository list
+
+    //  Obtain user repository list from github, searching by username
      $.get('https://api.github.com/users/' + user + '/repos?access_token='+ apiKey, function(response){
+      // loop through repos and add to list section
         response.forEach(function (repo) {
           $("ol#list").append("<li>" + repo.name + "</li>");
           console.log(repo.name);

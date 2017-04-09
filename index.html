@@ -1,19 +1,22 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/github-interface.js"></script>
-    <script type="text/javascript" src="js/github.js"></script>
+    <script type="text/javascript" src="build/js/app.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <title>GitHub User Lookup</title>
   </head>
   <body>
     <div class="container">
       <h1>Github User Lookup</h1>
-      <label for="username">Enter Username: </label>
+      <!-- Prompt for username -->
+      <label id="usernameLabel" for="username">Enter Username: </label>
       <input id="username" type="text">
-      <button class="btn-success" id="login">Search</button>
+      <!-- Submit username for searching -->
+      <button id="submit" type="button" class="btn btn-primary">Search</button>
 
-      <input type="button" value="Clear Repositories" onclick="removeAll()">
-      <div class="showUser"></div>
+      <input type="button" class="btn btn-default" value="Clear Repositories" onclick="removeAll()">
+      <div id="showUser"></div>
       <h2>Repositories</h2>
         <ol id="list">
         </ol>

@@ -1,0 +1,12 @@
+#showuser{
+  font-size: 13pt;
+  font-weight: bold;
+}
+
+#username{
+  width: 300px;
+}
+
+#usernameLabel{
+  font-size: 13pt;
+}
