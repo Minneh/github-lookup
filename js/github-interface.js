@@ -3,8 +3,8 @@ $(document).ready(function(){
   $("#submit").click(function(){
     var user = $("#username").val();//asign user-input name to var user
     $("#username").val("");//clear input textbox
-     $("#showUser").text(user);//display input username
-     removeAll();//clear repository list
+     $("#showUser").text(user + "'s repositories:");//display input username
+     removeRepos();//clear repository list
 
     //  Obtain user repository list from github, searching by username
      $.get('https://api.github.com/users/' + user + '/repos?access_token='+ apiKey, function(response){
