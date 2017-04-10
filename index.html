@@ -8,18 +8,18 @@
     <title>GitHub User Lookup</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Github User Lookup</h1>
-      <!-- Prompt for username -->
-      <label id="usernameLabel" for="username">Enter Username: </label>
-      <input id="username" type="text">
-      <!-- Submit username for searching -->
-      <button id="submit" type="button" class="btn btn-primary">Search</button>
+      <div class="container col-md-8">
+        <h1 class="white">Github User Lookup</h1>
+        <!-- Prompt for username -->
+        <label id="usernameLabel" for="username" class="white">Enter Username: </label>
+        <input id="username" type="text">
+        <!-- Submit username for searching -->
+        <button id="submit" type="button" class="btn btn-primary">Search</button>
 
-      <input type="button" class="btn btn-default" value="Clear Repositories" onclick="removeAll()">
-      <div id="showUser"></div>
-        <ol id="list">
-        </ol>
-    </div>
+        <input type="button" class="btn btn-default" value="Clear Repositories" onclick="removeAll()">
+        <div id="showUser" class="white"></div>
+          <ol id="list" class="white">
+          </ol>
+      </div>
   </body>
 </html>
